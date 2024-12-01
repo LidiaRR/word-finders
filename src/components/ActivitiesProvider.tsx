@@ -7,7 +7,7 @@ export interface ActivityElement {
   completed: boolean;
   guessing: boolean;
   question: string;
-  answer: string;
+  answers: (number | string | any[])[];
   difficulty: number;
 }
 
@@ -26,7 +26,7 @@ const defaultActivityList: ActivityElement[] = Array.from(
     completed: false,
     guessing: false,
     question: "",
-    answer: "",
+    answers: [],
     difficulty: 0,
   })
 );

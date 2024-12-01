@@ -68,30 +68,36 @@ const Container = styled.div`
   padding: 20px;
   border-radius: 12px; /* More rounded corners */
   position: relative;
-  width: 600px;
+  width: 800px;
   max-width: 90%; /* Ensures modal is responsive */
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease; /* Smooth transition for the modal appearance */
   box-sizing: border-box; /* Ensure padding is included in width calculation */
 `;
 
-// Styled input field with subtle border and focus effect
-const AnswerInput = styled.input`
+const FeedbackText = styled.p`
+  color: red;
+  font-size: 14px;
+  margin-bottom: 10px; /* Space below feedback and above inputs */
+  text-align: center; /* Center feedback text */
+`;
+
+const AnswerInput = styled.input<{ hasError: boolean }>`
   width: 100%;
   padding: 12px;
   margin: 10px 0;
   font-size: 16px;
   font-family: "Montserrat", sans-serif;
-  border: 1px solid #8a2be2; /* Violet border to match the overall theme */
+  border: 1px solid ${({ hasError }) => (hasError ? "red" : "#8a2be2")};
   border-radius: 8px;
-  background-color: #f5f5f5; /* Light background for input */
-  color: #333; /* Darker text for readability */
-  box-sizing: border-box; /* Ensure padding is included in width calculation */
+  background-color: ${({ hasError }) => (hasError ? "#ffe6e6" : "#f5f5f5")};
+  color: #333;
+  box-sizing: border-box;
 
   &:focus {
     outline: none;
-    border-color: #90ee90; /* Light Green on focus */
-    background-color: #eafaf1; /* Lighter background when focused */
+    border-color: ${({ hasError }) => (hasError ? "red" : "#90ee90")};
+    background-color: ${({ hasError }) => (hasError ? "#ffe6e6" : "#eafaf1")};
   }
 
   &::placeholder {
@@ -154,54 +160,81 @@ function Modal({
   setShowConfetti: any;
 }) {
   const { activityList, setActivityList } = useContext(ActivitiesContext);
-  const [answer, setAnswer] = useState("");
+  const [answers, setAnswers] = useState<string[]>(
+    activityList[idx].answers.map(() => "")
+  ); // Keep input values as strings for now
+  const [feedback, setFeedback] = useState("");
+  const [errorIndices, setErrorIndices] = useState<number[]>([]);
 
   if (!activityList[idx].guessing) return null;
 
-  // Handle input changes
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAnswer(e.target.value); // Update state with the new value
+  const handleInputChange = (value: string, index: number) => {
+    const newAnswers = [...answers];
+    newAnswers[index] = value;
+    setAnswers(newAnswers);
+    setFeedback("");
+    setErrorIndices([]);
   };
 
-  // Handle submit button click
   const handleSubmit = () => {
-    console.log("User's answer:", answer);
+    const correctAnswers = activityList[idx].answers;
+    const incorrectIndices = answers
+      .map((answer, index) => {
+        const correctAnswer = correctAnswers[index];
 
-    // Validate or process the answer here
-    const correctAnswer = activityList[idx].answer;
-    if (answer.trim().toLowerCase() === correctAnswer.trim().toLowerCase()) {
-      console.log("Correct answer!");
+        // Validate against single values or arrays of valid answers
+        const isCorrect = Array.isArray(correctAnswer)
+          ? correctAnswer.some((valid) =>
+              typeof valid === "number"
+                ? Number(answer) === valid
+                : answer.trim().toLowerCase() ===
+                  String(valid).trim().toLowerCase()
+            )
+          : typeof correctAnswer === "number"
+          ? Number(answer) === correctAnswer
+          : answer.trim().toLowerCase() ===
+            String(correctAnswer).trim().toLowerCase();
 
-      // Mark the activity as completed
+        return isCorrect ? null : index;
+      })
+      .filter((index) => index !== null) as number[];
+
+    if (incorrectIndices.length === 0) {
+      console.log("All answers correct!");
       const updatedActivityList = activityList.map((activity, i) =>
         i === idx ? { ...activity, completed: true, guessing: false } : activity
       );
       setActivityList(updatedActivityList);
+      localStorage.setItem("activityList", JSON.stringify(updatedActivityList));
 
-      const { isBingoIdx, bingoSquares } = isBingo({ idx, activityList });
+      const { isBingoIdx } = isBingo({ idx, activityList });
       if (isBingoIdx) {
         setShowConfetti(true);
-
-        // Stop confetti after 30 seconds
-        setTimeout(() => {
-          setShowConfetti(false);
-        }, 30000); // 30 seconds
+        setTimeout(() => setShowConfetti(false), 30000);
       }
     } else {
-      console.log("Incorrect answer, try again.");
+      console.log("Some answers incorrect!");
+      setFeedback("Some answers are incorrect. Please try again!");
+      setErrorIndices(incorrectIndices);
     }
   };
 
   return (
     <Overlay>
       <Container>
-        <h3>{activityList[idx].question}</h3> {/* Title for the question */}
-        <AnswerInput
-          placeholder="Type your answer here"
-          value={answer}
-          onChange={handleInputChange}
-        />
-        <SubmitButton onClick={handleSubmit}>Submit your answer</SubmitButton>
+        <h3 style={{ whiteSpace: "pre-line" }}>{activityList[idx].question}</h3>
+
+        {activityList[idx].answers.map((_, index) => (
+          <AnswerInput
+            key={index}
+            placeholder={`Answer ${index + 1}`}
+            value={answers[index]}
+            onChange={(e) => handleInputChange(e.target.value, index)}
+            hasError={errorIndices.includes(index)}
+          />
+        ))}
+        {feedback && <FeedbackText>{feedback}</FeedbackText>}
+        <SubmitButton onClick={handleSubmit}>Submit your answers</SubmitButton>
       </Container>
     </Overlay>
   );

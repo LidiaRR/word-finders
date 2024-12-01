@@ -126,16 +126,6 @@ function BingoSquare({
         i === idx ? { ...activity, guessing: true } : activity
       )
     );
-
-    // const { isBingoIdx, bingoSquares } = isBingo({ idx, activityList });
-    // if (isBingoIdx) {
-    //   setShowConfetti(true);
-
-    //   // Stop confetti after 30 seconds
-    //   setTimeout(() => {
-    //     setShowConfetti(false);
-    //   }, 30000); // 30 seconds
-    // }
   };
 
   return (
@@ -156,103 +146,108 @@ function BingoCard() {
   const [showConfetti, setShowConfetti] = useState(false);
 
   useEffect(() => {
-    let activities: ActivityElement[] = [
-      {
-        num: 1,
-        link: "https://colab.research.google.com/drive/1o-x8y-CCmh-n3zaoEysJYOpjNjjWVlZu?usp=sharing",
-        question:
-          "What is the result of multiplying the Echo Time by the Slice Thickness?",
-        answer: "110.096",
-        completed: false,
-        guessing: false,
-        difficulty: 0,
-      },
-      {
-        num: 2,
-        link: "https://colab.research.google.com/drive/1RMTRGQasQHFVcaKyMPjEcRavAjkPK5bW?usp=sharing",
-        question: "What is the index of the rotated slice?",
-        answer: "12",
-        completed: false,
-        guessing: false,
-        difficulty: 0,
-      },
-      {
-        num: 3,
-        link: "https://colab.research.google.com/drive/1o-x8y-CCmh-n3zaoEysJYOpjNjjWVlZu?usp=sharing",
-        question:
-          "What is the result of multiplying the Echo Time by the Slice Thickness?",
-        answer: "1",
-        completed: false,
-        guessing: false,
-        difficulty: 0,
-      },
-      {
-        num: 4,
-        link: "https://colab.research.google.com/drive/1o-x8y-CCmh-n3zaoEysJYOpjNjjWVlZu?usp=sharing",
-        question:
-          "What is the result of multiplying the Echo Time by the Slice Thickness?",
-        answer: "1",
-        completed: false,
-        guessing: false,
-        difficulty: 0,
-      },
-      {
-        num: 5,
-        link: "https://colab.research.google.com/drive/1o-x8y-CCmh-n3zaoEysJYOpjNjjWVlZu?usp=sharing",
-        question:
-          "What is the result of multiplying the Echo Time by the Slice Thickness?",
-        answer: "110.096",
-        completed: false,
-        guessing: false,
-        difficulty: 0,
-      },
-      {
-        num: 6,
-        link: "https://colab.research.google.com/drive/1o-x8y-CCmh-n3zaoEysJYOpjNjjWVlZu?usp=sharing",
-        question:
-          "What is the result of multiplying the Echo Time by the Slice Thickness?",
-        answer: "110.096",
-        completed: false,
-        guessing: false,
-        difficulty: 0,
-      },
-      {
-        num: 7,
-        link: "https://colab.research.google.com/drive/1o-x8y-CCmh-n3zaoEysJYOpjNjjWVlZu?usp=sharing",
-        question:
-          "What is the result of multiplying the Echo Time by the Slice Thickness?",
-        answer: "110.096",
-        completed: false,
-        guessing: false,
-        difficulty: 0,
-      },
-      {
-        num: 8,
-        link: "https://colab.research.google.com/drive/1o-x8y-CCmh-n3zaoEysJYOpjNjjWVlZu?usp=sharing",
-        question:
-          "What is the result of multiplying the Echo Time by the Slice Thickness?",
-        answer: "110.096",
-        completed: false,
-        guessing: false,
-        difficulty: 0,
-      },
-      {
-        num: 9,
-        link: "https://colab.research.google.com/drive/1o-x8y-CCmh-n3zaoEysJYOpjNjjWVlZu?usp=sharing",
-        question:
-          "What is the result of multiplying the Echo Time by the Slice Thickness?",
-        answer: "110.096",
-        completed: false,
-        guessing: false,
-        difficulty: 0,
-      },
-    ];
-    for (let i = 8; i >= 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
-      [activities[i], activities[j]] = [activities[j], activities[i]];
-    }
+    const savedStatus = localStorage.getItem("activityList");
+    if (savedStatus) {
+      setActivityList(JSON.parse(savedStatus));
+    } else {
+      let activities: ActivityElement[] = [
+        {
+          num: 1,
+          link: "https://colab.research.google.com/drive/1o-x8y-CCmh-n3zaoEysJYOpjNjjWVlZu?usp=sharing",
+          question:
+            "What is the result of multiplying the Echo Time by the Slice Thickness?",
+          answers: [110096],
+          completed: false,
+          guessing: false,
+          difficulty: 0,
+        },
+        {
+          num: 2,
+          link: "https://colab.research.google.com/drive/1RMTRGQasQHFVcaKyMPjEcRavAjkPK5bW?usp=sharing",
+          question: "What is the index of the rotated slice?",
+          answers: [12],
+          completed: false,
+          guessing: false,
+          difficulty: 0,
+        },
+        {
+          num: 3,
+          link: "https://colab.research.google.com/drive/1RrfwTC2JyO8_d8Xcg5u0Sis_mqghkuxA?usp=sharing",
+          question:
+            "Answer the 4 questions in the notebook. \nWhat is the manifacturer of the CT Scanner? \nHow old is the patient? \nWhat is the sex of the patient? (Male, Female) \nDoes the patient involve a method for injected contrast enhancement? (Yes / No)",
+          answers: ["Siemens", 60, "Male", "No"],
+          completed: false,
+          guessing: false,
+          difficulty: 0,
+        },
+        {
+          num: 4,
+          link: "https://colab.research.google.com/drive/1o-x8y-CCmh-n3zaoEysJYOpjNjjWVlZu?usp=sharing",
+          question:
+            "Answer the 3 questions in the notebook. \nWhich anatomical plane are the slices? (axial, coronal, sagittal) \nWhat is the approximate intensity value of soft tissue? Write only the option letter. A)-2000 HU, B)-1000 HU, C)0 HU, D)1000 HU, E)2000 HU \nWhat is the approximate intensity value of bone? Write only the option letter. A)-2000 HU, B)-1000 HU, C)0 HU, D)1000 HU, E)2000 HU",
+          answers: ["Axial", "C", "D"],
+          completed: false,
+          guessing: false,
+          difficulty: 0,
+        },
+        {
+          num: 5,
+          link: "https://drive.google.com/file/d/1nPshNj3EQ_OaJPiqDRwRT6omqvxccaIa/view?usp=sharing",
+          question:
+            "What is the intensity threshold value? Write only the option letter. A)0, B)1, C)2, D)3",
+          answers: ["C"],
+          completed: false,
+          guessing: false,
+          difficulty: 0,
+        },
+        {
+          num: 6,
+          link: "https://drive.google.com/file/d/1jgaNhvkWKNoUN_CaH4BIvyDTv1Jd26KD/view?usp=sharing",
+          question:
+            "What are the four anatomical parts that have increased metabolic activity? The order of the anatomical part in the answer: From top to bottom anatomical part of a human body.",
+          answers: ["Brain", "Heart", "Liver", "Bladder"],
+          completed: false,
+          guessing: false,
+          difficulty: 0,
+        },
+        {
+          num: 7,
+          link: "https://drive.google.com/file/d/1QvX3-OxwDH9lWNUdXPPwrro4-7AT3wia/view?usp=drive_link",
+          question:
+            "What is the approximate average pixel intensity of the histogram equalized image in XRay Quest 1?",
+          answers: [[127, 128, 129]],
+          completed: false,
+          guessing: false,
+          difficulty: 0,
+        },
+        {
+          num: 8,
+          link: "https://drive.google.com/file/d/1qukHR86BYztjJ5fsPUQNXBZttoiLSZXK/view?usp=drive_link",
+          question:
+            "What is the approximate difference in pixel intensity between Gaussian Filtered Image and Mean Filtered Image obtained in XRAY QUest 2? Write only the option letter. A) 12 B) 15 C) 19 D) 22",
+          answers: ["B"],
+          completed: false,
+          guessing: false,
+          difficulty: 0,
+        },
+        {
+          num: 9,
+          link: "https://colab.research.google.com/drive/1H59bjMsRH2O7nUQYXBideJXwTPkvmdyK?usp=sharing",
+          question:
+            "What is the mean value of subtracting the sharpened edges image minus the original masked image? Give the result as an int",
+          answers: [22],
+          completed: false,
+          guessing: false,
+          difficulty: 0,
+        },
+      ];
+      for (let i = 8; i >= 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        [activities[i], activities[j]] = [activities[j], activities[i]];
+      }
 
-    setActivityList(activities);
+      setActivityList(activities);
+    }
     setIsDataLoaded(true);
   }, [setActivityList]);
 
