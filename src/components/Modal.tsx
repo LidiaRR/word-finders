@@ -13,6 +13,11 @@ const bingos = [
     [4, 7],
   ],
   [
+    [0, 1],
+    [5, 8],
+    [4, 6],
+  ],
+  [
     [4, 5],
     [0, 6],
   ],
@@ -138,6 +143,7 @@ function isBingo({ idx, activityList }: { idx: number; activityList: any }) {
   // const {activityList} = useContext(ActivitiesContext)
   let isBingoIdx = false;
   let bingoSquares = [];
+  let numBingos = 0;
   for (let possibleBingo of bingos[idx]) {
     let thisBingo = true;
     for (let square of possibleBingo) {
@@ -145,19 +151,22 @@ function isBingo({ idx, activityList }: { idx: number; activityList: any }) {
     }
     if (thisBingo) {
       isBingoIdx = true;
+      ++numBingos;
       bingoSquares.push(idx);
       bingoSquares.push(possibleBingo);
     }
   }
-  return { isBingoIdx, bingoSquares };
+  return { isBingoIdx, bingoSquares, numBingos };
 }
 
 function Modal({
   idx,
   setShowConfetti,
+  setNumBingos,
 }: {
   idx: number;
   setShowConfetti: any;
+  setNumBingos: any;
 }) {
   const { activityList, setActivityList } = useContext(ActivitiesContext);
   const [answers, setAnswers] = useState<string[]>(
@@ -207,10 +216,14 @@ function Modal({
       setActivityList(updatedActivityList);
       localStorage.setItem("activityList", JSON.stringify(updatedActivityList));
 
-      const { isBingoIdx } = isBingo({ idx, activityList });
+      const { isBingoIdx, numBingos } = isBingo({ idx, activityList });
       if (isBingoIdx) {
         setShowConfetti(true);
+        setNumBingos(numBingos);
         setTimeout(() => setShowConfetti(false), 30000);
+      } else {
+        setShowConfetti(false);
+        setNumBingos(0);
       }
     } else {
       console.log("Some answers incorrect!");
