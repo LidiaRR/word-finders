@@ -4,46 +4,6 @@ import { useContext, useEffect, useState } from "react";
 import Modal from "./Modal";
 import Confetti from "react-confetti";
 
-const bingos = [
-  [
-    [1, 2],
-    [3, 6],
-    [4, 8],
-  ],
-  [
-    [0, 2],
-    [4, 7],
-  ],
-  [
-    [4, 5],
-    [0, 6],
-  ],
-  [
-    [3, 5],
-    [1, 7],
-    [0, 8],
-    [2, 6],
-  ],
-  [
-    [3, 4],
-    [2, 8],
-  ],
-  [
-    [7, 8],
-    [0, 3],
-    [2, 4],
-  ],
-  [
-    [6, 8],
-    [1, 4],
-  ],
-  [
-    [6, 7],
-    [2, 5],
-    [0, 4],
-  ],
-];
-
 const Wrapper = styled.div`
   flex-grow: 1; /* Allows this section to grow and center vertically */
   display: flex;
@@ -108,24 +68,6 @@ const CongratsMessage = styled.div`
   color: #2f4f4f;
   border: 2px solid #4682b4;
 `;
-
-function isBingo({ idx, activityList }: { idx: number; activityList: any }) {
-  // const {activityList} = useContext(ActivitiesContext)
-  let isBingoIdx = false;
-  let bingoSquares = [];
-  for (let possibleBingo of bingos[idx]) {
-    let thisBingo = true;
-    for (let square of possibleBingo) {
-      if (!activityList[square].completed) thisBingo = false;
-    }
-    if (thisBingo) {
-      isBingoIdx = true;
-      bingoSquares.push(idx);
-      bingoSquares.push(possibleBingo);
-    }
-  }
-  return { isBingoIdx, bingoSquares };
-}
 
 function BingoSquare({
   idx,
@@ -198,7 +140,7 @@ function BingoCard() {
         },
         {
           num: 4,
-          link: "https://colab.research.google.com/drive/1o-x8y-CCmh-n3zaoEysJYOpjNjjWVlZu?usp=sharing",
+          link: "https://colab.research.google.com/drive/1Ax21I6qHiveoQfXowFJcbHVfnk8YKLN8?usp=sharing",
           question:
             "Answer the 3 questions in the notebook. \nWhich anatomical plane are the slices? (axial, coronal, sagittal) \nWhat is the approximate intensity value of soft tissue? Write only the option letter. A)-2000 HU, B)-1000 HU, C)0 HU, D)1000 HU, E)2000 HU \nWhat is the approximate intensity value of bone? Write only the option letter. A)-2000 HU, B)-1000 HU, C)0 HU, D)1000 HU, E)2000 HU",
           answers: ["Axial", "C", "D"],
@@ -231,7 +173,7 @@ function BingoCard() {
           link: "https://drive.google.com/file/d/1QvX3-OxwDH9lWNUdXPPwrro4-7AT3wia/view?usp=drive_link",
           question:
             "What is the approximate average pixel intensity of the histogram equalized image in XRay Quest 1?",
-          answers: [[127, 128, 129]],
+          answers: [[127, 129]],
           completed: false,
           guessing: false,
           difficulty: 0,

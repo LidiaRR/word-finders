@@ -191,14 +191,9 @@ function Modal({
       .map((answer, index) => {
         const correctAnswer = correctAnswers[index];
 
-        // Validate against single values or arrays of valid answers
         const isCorrect = Array.isArray(correctAnswer)
-          ? correctAnswer.some((valid) =>
-              typeof valid === "number"
-                ? Number(answer) === valid
-                : answer.trim().toLowerCase() ===
-                  String(valid).trim().toLowerCase()
-            )
+          ? Number(answer) >= correctAnswer[0] &&
+            Number(answer) <= correctAnswer[1]
           : typeof correctAnswer === "number"
           ? Number(answer) === correctAnswer
           : answer.trim().toLowerCase() ===
