@@ -150,7 +150,7 @@ function BingoCard() {
         },
         {
           num: 5,
-          link: "https://drive.google.com/file/d/1nPshNj3EQ_OaJPiqDRwRT6omqvxccaIa/view?usp=sharing",
+          link: "https://colab.research.google.com/drive/1nPshNj3EQ_OaJPiqDRwRT6omqvxccaIa?usp=sharing",
           question:
             "What is the intensity threshold value? Write only the option letter. A)0, B)1, C)2, D)3",
           answers: ["C"],
@@ -160,7 +160,7 @@ function BingoCard() {
         },
         {
           num: 6,
-          link: "https://drive.google.com/file/d/1jgaNhvkWKNoUN_CaH4BIvyDTv1Jd26KD/view?usp=sharing",
+          link: "https://colab.research.google.com/drive/1jgaNhvkWKNoUN_CaH4BIvyDTv1Jd26KD?usp=sharing",
           question:
             "What are the four anatomical parts that have increased metabolic activity? The order of the anatomical part in the answer: From top to bottom anatomical part of a human body.",
           answers: ["Brain", "Heart", "Liver", "Bladder"],
@@ -170,7 +170,7 @@ function BingoCard() {
         },
         {
           num: 7,
-          link: "https://drive.google.com/file/d/1QvX3-OxwDH9lWNUdXPPwrro4-7AT3wia/view?usp=drive_link",
+          link: "https://colab.research.google.com/drive/1QvX3-OxwDH9lWNUdXPPwrro4-7AT3wia?usp=sharing",
           question:
             "What is the approximate average pixel intensity of the histogram equalized image in XRay Quest 1?",
           answers: [[127, 129]],
@@ -180,7 +180,7 @@ function BingoCard() {
         },
         {
           num: 8,
-          link: "https://drive.google.com/file/d/1qukHR86BYztjJ5fsPUQNXBZttoiLSZXK/view?usp=drive_link",
+          link: "https://colab.research.google.com/drive/1qukHR86BYztjJ5fsPUQNXBZttoiLSZXK?usp=sharing",
           question:
             "What is the approximate difference in pixel intensity between Gaussian Filtered Image and Mean Filtered Image obtained in XRAY QUest 2? Write only the option letter. A) 12 B) 15 C) 19 D) 22",
           answers: ["B"],
