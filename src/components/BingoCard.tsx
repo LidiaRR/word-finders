@@ -182,7 +182,7 @@ function BingoCard() {
           num: 8,
           link: "https://colab.research.google.com/drive/1qukHR86BYztjJ5fsPUQNXBZttoiLSZXK?usp=sharing",
           question:
-            "What is the approximate difference in pixel intensity between Gaussian Filtered Image and Mean Filtered Image obtained in XRAY QUest 2? Write only the option letter. A) 12 B) 15 C) 19 D) 22",
+            "What is the approximate difference in pixel intensity between Gaussian Filtered Image and Mean Filtered Image obtained in XRAY QUest 2? Write only the option letter. A) 12 B) 14 C) 19 D) 22",
           answers: ["B"],
           completed: false,
           guessing: false,
