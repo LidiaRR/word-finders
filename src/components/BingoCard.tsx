@@ -192,7 +192,7 @@ function BingoCard() {
           num: 9,
           link: "https://colab.research.google.com/drive/1H59bjMsRH2O7nUQYXBideJXwTPkvmdyK?usp=sharing",
           question:
-            "What is the mean value of subtracting the sharpened edges image minus the original masked image? Give the result as an int",
+            "What is the mean value of subtracting the original masked image from the sharpened edges image? Give the result as an int",
           answers: [22],
           completed: false,
           guessing: false,
